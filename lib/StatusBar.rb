@@ -5,4 +5,6 @@ end
 lib_dir_path = File.dirname(File.expand_path(__FILE__))
 Motion::Project::App.setup do |app|
   app.files.unshift(Dir.glob(File.join(lib_dir_path, "project/**/*.rb")))
+  app.files.unshift(Dir.glob(File.join(lib_dir_path, "project/**/*.rb")))
+  app.resources_dirs.unshift([Dir.glob('statusbar_resources')])
 end
