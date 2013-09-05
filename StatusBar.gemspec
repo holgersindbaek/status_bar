@@ -18,6 +18,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency("bubblewrap")
   spec.add_development_dependency("sugarcube")
-
   spec.add_development_dependency "rake"
 end

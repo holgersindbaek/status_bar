@@ -1,26 +1,12 @@
 class Statusbar
 
-  K_accessory_width = 14
-  K_accessory_height = 14
+  K_accessory_dimension = 14
 
   def initialize
     # Create statusbar view
     @statusbar_view = UIView.alloc.initWithFrame(CGRectMake(0, -statusbar_height, statusbar_width, statusbar_height))
     @statusbar_view.backgroundColor = UIColor.blackColor
     @statusbar_view.clipsToBounds = true
-
-    # Create notice view
-    @notice_view = notice("Loading...")
-
-    # Create success image
-    @success_view = UIImageView.alloc.initWithFrame(CGRectMake(0, 0, 20, 20))
-    @success_view.image = UIImage.imageNamed("success.png")
-    @statusbar_view.addSubview(@success_view)
-
-    # Create error image
-
-    # Create spinner
-
     App.shared.keyWindow.addSubview(@statusbar_view)
   end
 
@@ -28,75 +14,61 @@ class Statusbar
 
   # EXTERNAL COMMANDS
 
-  # Show notice
-  def show_notice(text)
+  def show_notice(text, accessory = nil)
+    reposition_statusbar_view
     show_status_bar
 
-    if @notice_view.y < 20
-      # Move new notice in
-      notice_view = notice(text)
-      notice_view.move_to([0, 0])
-
-      # Move old notice out and replace the view
-      hide_notice_view_up
-      0.3.second.later { 
-        @notice_view.removeFromSuperview
-        @notice_view = nil
-        @notice_view = notice_view 
-      }
-    else
-      @notice_view.text = text
-      show_notice_view
+    # Hide old notices
+    @statusbar_view.subviews.each do |view|
+      view.move_to([0, -statusbar_height])
+      0.3.second.later { view.removeFromSuperview }
     end
+
+    # Show new notice
+    view = notice_view(text, accessory)
+    view.move_to([0, 0])
+
+    # Hide view again if success or error
+    3.second.later { hide_notice if view.isDescendantOfView(@statusbar_view) } if accessory == "success" || accessory == "error"
   end
 
-  # Show activity notice
+  def show_activity_notice(text)
+    show_notice(text, "activity")
+  end
 
-  # Show success notice
   def show_success_notice(text)
-    show_status_bar
-
-    # @success_view.move_to([0, 0])
+    show_notice(text, "success")
   end
 
-  # Show error notice
+  def show_error_notice(text)
+    show_notice(text, "error")
+  end
 
   # Hide notice
   def hide_notice
-    hide_status_bar
-    0.3.second.later { hide_notice_view_down }
+    hide_statusbar_view
+
+    # Remove subviews after certain amount of time
+    @statusbar_view.subviews.each do |view|
+      0.3.second.later { view.removeFromSuperview }
+    end
   end
 
 
 
   # INTERNAL COMMANDS
 
-  # Show status bar
   def show_status_bar
     if !App.shared.isStatusBarHidden
-      @statusbar_view.y = 0
       App.shared.setStatusBarHidden(true, withAnimation:UIStatusBarAnimationSlide)
     end
   end
 
-  # Hide status bar
-  def hide_status_bar
+  def hide_statusbar_view
     if App.shared.isStatusBarHidden
       App.shared.setStatusBarHidden(false, withAnimation:UIStatusBarAnimationSlide)
       0.4.second.later { @statusbar_view.y = -statusbar_height }
     end
-  end
-
-  def show_notice_view
-    @notice_view.move_to([0, 0])
-  end
-
-  def hide_notice_view_up
-    @notice_view.move_to([0, -statusbar_height])
-  end
-
-  def hide_notice_view_down
-    @notice_view.move_to([0, statusbar_height])
   end
 
 
@@ -113,18 +85,89 @@ class Statusbar
     20
   end
 
-  def notice(text)
-    notice_view = UILabel.alloc.initWithFrame(CGRectMake(0, statusbar_height, statusbar_width, statusbar_height))
+  def rotation_transform
+    transform = 0.degrees
+    if landscape_left?(Device.interface_orientation)
+      transform = 270.degrees
+    elsif landscape_right?(Device.interface_orientation)
+      transform = 90.degrees
+    end
+
+    CGAffineTransformMakeRotation(transform)
+  end
+
+  def reposition_statusbar_view
+    @statusbar_view.frame = CGRectMake(0, 0, statusbar_width, statusbar_height)
+    @statusbar_view.bounds = CGRectMake(0, 0, statusbar_width, statusbar_height)
+    @statusbar_view.transform = rotation_transform
+    @statusbar_view.x = 0
+    @statusbar_view.y = 0
+  end
+
+
+
+  #  VIEW GENERATORS
+
+  def notice_view(text, accessory)
+    # Create notice view
+    notice_view = UIView.alloc.initWithFrame(CGRectMake(0, statusbar_height, statusbar_width, statusbar_height))
     notice_view.backgroundColor = UIColor.clearColor
-    notice_view.adjustsFontSizeToFitWidth = false
-    notice_view.textAlignment = Device.ios_version.to_i >= 6 ? UITextAlignmentCenter : NSTextAlignmentCenter
-    notice_view.baselineAdjustment = UIBaselineAdjustmentAlignCenters
-    notice_view.textColor = "#bcbcbc".uicolor
-    notice_view.font = UIFont.boldSystemFontOfSize(14)
-    notice_view.text = text
+
+    # Add label view to notice view
+    label_view = label_view(text)
+    notice_view.addSubview(label_view)
+
+    # Add accessory if needed 
+    accessory_view =  case accessory
+                      when "activity" then spinner_view
+                      when "success" then image_view("success")
+                      when "error" then image_view("error")
+                      else nil
+                      end
+    notice_view.addSubview(accessory_view)
+
+    # Place accessory and label correctly
+    if accessory != nil 
+      text_width = text.sizeWithFont(UIFont.boldSystemFontOfSize(14)).width
+      accessory_view.x = (statusbar_width/2) - (text_width / 2) - 10
+      label_view.x = 10
+    end
+
+    # Add notice view to statusbar view
     @statusbar_view.addSubview(notice_view)
 
     return notice_view
+  end
+
+  def label_view(text)
+    label_view = UILabel.alloc.initWithFrame(CGRectMake(0, 0, statusbar_width, statusbar_height))
+    label_view.backgroundColor = UIColor.clearColor
+    label_view.adjustsFontSizeToFitWidth = false
+    label_view.textAlignment = Device.ios_version.to_i >= 6 ? UITextAlignmentCenter : NSTextAlignmentCenter
+    label_view.baselineAdjustment = UIBaselineAdjustmentAlignCenters
+    label_view.textColor = "#bcbcbc".uicolor
+    label_view.font = UIFont.boldSystemFontOfSize(14)
+    label_view.text = text
+
+    return label_view
+  end
+
+  def image_view(image)
+    image_view = UIImageView.alloc.initWithFrame(CGRectMake(0, 3, K_accessory_dimension, K_accessory_dimension))
+    image_view.image = image.uiimage
+
+    return image_view
+  end
+
+  def spinner_view
+    spinner_view = UIActivityIndicatorView.alloc.initWithActivityIndicatorStyle(UIActivityIndicatorViewStyleWhite)
+    spinner_view.frame = CGRectMake(0, 3, K_accessory_dimension, K_accessory_dimension)
+    spinner_view.hidesWhenStopped = true
+    spinner_view.transform = CGAffineTransformMakeScale(K_accessory_dimension/spinner_view.width, K_accessory_dimension/spinner_view.width)
+    spinner_view.startAnimating
+    spinner_view.color = "#bcbcbc".uicolor
+
+    return spinner_view
   end
 
 end
