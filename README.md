@@ -6,10 +6,10 @@ A utility class for displaying status updates in the iOS status bar. Inspired by
 
 ##Screenshots
 
-![Notice](https://github.com/holgersindbaek/StatusBar/blob/master/screenshots/notice.png)
-![Activity](https://github.com/holgersindbaek/StatusBar/blob/master/screenshots/activity.png)
-![Success](https://github.com/holgersindbaek/StatusBar/blob/master/screenshots/success.png)
-![Error](https://github.com/holgersindbaek/StatusBar/blob/master/screenshots/error.png)
+![Notice](screenshots/notice.png)
+![Activity](screenshots/activity.png)
+![Success](screenshots/success.png)
+![Error](screenshots/error.png)
 
 ## Installation
 
