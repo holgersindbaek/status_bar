@@ -4,10 +4,12 @@ TODO: Write a gem description
 
 ## Installation
 
-Add simple_si to your Gemfile, and run `bundle install`:
+Add StatusBar to your Gemfile, and run `bundle install`:
 ```ruby
+
 gem 'motion-cocoapods'
-gem 'simple_si'
+gem 'StatusBar'
+
 ```
 
 ## Usage
@@ -17,14 +19,21 @@ gem 'simple_si'
 # Initilize the status bar
 statusbar = Statusbar.new
 
-
+# Show a notice... and hide it
 statusbar.show_notice("Hello World")
+statusbar.hide_notice
 
+# Show notice with an indicator
 statusbar.show_activity_notice("Somethings is happening")
 statusbar.show_success_notice("Great success")
 statusbar.show_error_notice("Awww... did't work out")
 
 ```
+
+## Todo
+
+* Make it work with a translucent status bar
+* Make rotation work perfectly
 
 ## Contributing
 
