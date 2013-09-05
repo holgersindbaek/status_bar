@@ -43,6 +43,7 @@ statusbar.show_error_notice("Awww... did't work out")
 
 * Make it work with a translucent status bar
 * Make rotation work perfectly
+* Make it work well on iOS 7
 
 ## Contributing
 
