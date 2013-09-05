@@ -4,21 +4,27 @@ TODO: Write a gem description
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'StatusBar'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install StatusBar
+Add simple_si to your Gemfile, and run `bundle install`:
+```ruby
+gem 'motion-cocoapods'
+gem 'simple_si'
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+``` ruby
+
+# Initilize the status bar
+statusbar = Statusbar.new
+
+
+statusbar.show_notice("Hello World")
+
+statusbar.show_activity_notice("Somethings is happening")
+statusbar.show_success_notice("Great success")
+statusbar.show_error_notice("Awww... did't work out")
+
+```
 
 ## Contributing
 
@@ -27,3 +33,7 @@ TODO: Write usage instructions here
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## Thanks
+
+* [Brian Partridge](https://github.com/brianpartridge) for [BPStatusBar](https://github.com/brianpartridge/BPStatusBar)

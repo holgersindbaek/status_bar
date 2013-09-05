@@ -50,6 +50,7 @@ class Statusbar
 
     # Remove subviews after certain amount of time
     @statusbar_view.subviews.each do |view|
+      view.move_to([0, statusbar_height])
       0.3.second.later { view.removeFromSuperview }
     end
   end
