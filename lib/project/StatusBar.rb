@@ -5,9 +5,18 @@ class Statusbar
   def initialize
     # Create statusbar view
     @statusbar_view = UIView.alloc.initWithFrame(CGRectMake(0, -statusbar_height, statusbar_width, statusbar_height))
-    @statusbar_view.backgroundColor = UIColor.blackColor
+    @statusbar_view.backgroundColor = background_color
     @statusbar_view.clipsToBounds = true
     App.shared.keyWindow.addSubview(@statusbar_view)
+
+    image_view = UIImageView.alloc.initWithFrame(CGRectMake(0, 0, 200, 200))
+    image_view.image = "duck".uiimage
+    App.shared.keyWindow.addSubview(image_view)
+
+    # Listen for rotation
+    App.notification_center.observe UIDeviceOrientationDidChangeNotification do |notification|
+      application_rotated(notification)
+    end
   end
 
 
@@ -16,6 +25,11 @@ class Statusbar
 
   def show_notice(text, accessory = nil)
     reposition_statusbar_view
+    # reposition_statusbar_view unless @statusbar_view.x == 0 && @statusbar_view.y == 0
+
+    # If statusbar is already shown, don't do anything
+
+    # Else show statusbar
     show_status_bar
 
     # Hide old notices
@@ -50,7 +64,6 @@ class Statusbar
 
     # Remove subviews after certain amount of time
     @statusbar_view.subviews.each do |view|
-      view.move_to([0, statusbar_height])
       0.3.second.later { view.removeFromSuperview }
     end
   end
@@ -60,49 +73,17 @@ class Statusbar
   # INTERNAL COMMANDS
 
   def show_status_bar
-    if !App.shared.isStatusBarHidden
+    if @statusbar_view.y < 0
       App.shared.setStatusBarHidden(true, withAnimation:UIStatusBarAnimationSlide)
+      0.4.second.later { @statusbar_view.move_to([0, 0]) }
     end
   end
 
   def hide_statusbar_view
-    if App.shared.isStatusBarHidden
-      App.shared.setStatusBarHidden(false, withAnimation:UIStatusBarAnimationSlide)
-      0.4.second.later { @statusbar_view.y = -statusbar_height }
+    if @statusbar_view.y == 0
+      @statusbar_view.move_to([0, -statusbar_height])
+      0.4.second.later { App.shared.setStatusBarHidden(false, withAnimation:UIStatusBarAnimationSlide) }
     end
-  end
-
-
-
-  # HELPER FUNCTIONS
-
-  def statusbar_width
-    # App.shared.statusBarFrame.size.width
-    Device.screen.width_for_orientation(Device.interface_orientation)
-  end
-
-  def statusbar_height
-    # App.shared.statusBarFrame.size.height
-    20
-  end
-
-  def rotation_transform
-    transform = 0.degrees
-    if landscape_left?(Device.interface_orientation)
-      transform = 270.degrees
-    elsif landscape_right?(Device.interface_orientation)
-      transform = 90.degrees
-    end
-
-    CGAffineTransformMakeRotation(transform)
-  end
-
-  def reposition_statusbar_view
-    @statusbar_view.frame = CGRectMake(0, 0, statusbar_width, statusbar_height)
-    @statusbar_view.bounds = CGRectMake(0, 0, statusbar_width, statusbar_height)
-    @statusbar_view.transform = rotation_transform
-    @statusbar_view.x = 0
-    @statusbar_view.y = 0
   end
 
 
@@ -129,7 +110,7 @@ class Statusbar
 
     # Place accessory and label correctly
     if accessory != nil 
-      text_width = text.sizeWithFont(UIFont.boldSystemFontOfSize(14)).width
+      text_width = text.sizeWithFont(font).width
       accessory_view.x = (statusbar_width/2) - (text_width / 2) - 10
       label_view.x = 10
     end
@@ -144,10 +125,10 @@ class Statusbar
     label_view = UILabel.alloc.initWithFrame(CGRectMake(0, 0, statusbar_width, statusbar_height))
     label_view.backgroundColor = UIColor.clearColor
     label_view.adjustsFontSizeToFitWidth = false
-    label_view.textAlignment = Device.ios_version.to_i >= 6 ? UITextAlignmentCenter : NSTextAlignmentCenter
+    label_view.textAlignment = ios_6? ? UITextAlignmentCenter : NSTextAlignmentCenter
     label_view.baselineAdjustment = UIBaselineAdjustmentAlignCenters
-    label_view.textColor = "#bcbcbc".uicolor
-    label_view.font = UIFont.boldSystemFontOfSize(14)
+    label_view.textColor = color
+    label_view.font = font
     label_view.text = text
 
     return label_view
@@ -166,9 +147,80 @@ class Statusbar
     spinner_view.hidesWhenStopped = true
     spinner_view.transform = CGAffineTransformMakeScale(K_accessory_dimension/spinner_view.width, K_accessory_dimension/spinner_view.width)
     spinner_view.startAnimating
-    spinner_view.color = "#bcbcbc".uicolor
+    spinner_view.color = color
 
     return spinner_view
+  end
+
+
+
+  # HELPER FUNCTIONS
+
+  def statusbar_width
+    # App.shared.statusBarFrame.size.width
+    Device.screen.width_for_orientation(Device.interface_orientation)
+  end
+
+  def statusbar_height
+    # App.shared.statusBarFrame.size.height
+    20
+  end
+
+  def font
+    UIFont.boldSystemFontOfSize(ios_7? ? 12 : 14)
+  end
+
+  def ios_7?
+    Device.ios_version.to_i >= 7
+  end
+
+  def ios_6?
+    Device.ios_version.to_i >= 6
+  end
+
+  def color
+    local_color = UIColor.blackColor
+    case App.shared.statusBarStyle
+    when UIStatusBarStyleDefault, UIStatusBarStyleBlackTranslucent, UIStatusBarStyleBlackOpaque
+      local_color = "#bcbcbc".uicolor unless ios_7?
+    when UIStatusBarStyleLightContent
+      local_color = "#ffffff".uicolor
+    end
+
+    return local_color
+  end
+
+  def background_color
+    return ios_7? ? UIColor.clearColor : UIColor.blackColor
+  end
+
+  def rotation_transform
+    transform = 0.degrees
+    if landscape_left?(Device.interface_orientation)
+      transform = 270.degrees
+    elsif landscape_right?(Device.interface_orientation)
+      transform = 90.degrees
+    end
+
+    CGAffineTransformMakeRotation(transform)
+  end
+
+  def reposition_statusbar_view
+    @statusbar_view.frame = CGRectMake(0, 0, statusbar_width, statusbar_height)
+    @statusbar_view.bounds = CGRectMake(0, 0, statusbar_width, statusbar_height)
+    @statusbar_view.transform = rotation_transform
+    @statusbar_view.x = 0
+    @statusbar_view.y = -20
+  end
+
+  def application_rotated(notification)
+    # TODO - Create really nice animation of the statusbar rotation and changing to new position
+
+    # transform = CGAffineTransformMakeTranslation(0, 0);
+    # transform = CGAffineTransformRotate(transform, 0.degrees);
+    # UIView.animate do
+    #   @statusbar_view.transform = transform
+    # end
   end
 
 end
