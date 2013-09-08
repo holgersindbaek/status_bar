@@ -4,8 +4,11 @@ end
 
 lib_dir_path = File.dirname(File.expand_path(__FILE__))
 resource_dir = File.expand_path(File.join(lib_dir_path, '..', 'resources'))
-p resource_dir
 Motion::Project::App.setup do |app|
   app.files.unshift(Dir.glob(File.join(lib_dir_path, "project/**/*.rb")))
   app.resources_dirs.unshift << resource_dir
+
+  app.pods do
+    pod 'UIImage+RTTint', '~> 1.0.0'
+  end
 end
