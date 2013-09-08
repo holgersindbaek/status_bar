@@ -125,6 +125,7 @@ module StatusbarHelper
   end
 
   def statusbar_view_visible?
+    ap "@statusbar_view.y"
     @statusbar_view.y == 0
   end
 

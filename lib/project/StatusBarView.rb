@@ -4,7 +4,7 @@ module StatusBarView
   def notice_view(text, accessory)
     # Create notice view
     notice_view = UIView.alloc.initWithFrame(CGRectMake(0, statusbar_height, statusbar_width, statusbar_height))
-    notice_view.backgroundColor = UIColor.clearColor
+    notice_view.backgroundColor = UIColor.redColor
 
     # Add label view to notice view
     label_view = label_view(text)
