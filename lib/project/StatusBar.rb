@@ -11,6 +11,8 @@ class Statusbar
     @statusbar_view.clipsToBounds = true
     App.shared.keyWindow.addSubview(@statusbar_view)
 
+
+
     # Listen for rotation
     # App.notification_center.observe UIDeviceOrientationDidChangeNotification do |notification|
     #   application_rotated(notification)
@@ -51,7 +53,6 @@ class Statusbar
     show_notice(text, "error")
   end
 
-  # Hide notice
   def hide_notice
     hide_statusbar_view
 
@@ -59,6 +60,10 @@ class Statusbar
     @statusbar_view.subviews.each do |view|
       0.3.second.later { view.removeFromSuperview }
     end
+  end
+
+  def visible?
+    statusbar_view_visible?
   end
 
 
@@ -77,73 +82,6 @@ class Statusbar
       @statusbar_view.move_to([hidden_statusbar_view_frame.x, hidden_statusbar_view_frame.y])
       0.4.second.later { App.shared.setStatusBarHidden(false, withAnimation:UIStatusBarAnimationSlide) }
     end
-  end
-
-
-
-  #  VIEW GENERATORS
-
-  def notice_view(text, accessory)
-    # Create notice view
-    notice_view = UIView.alloc.initWithFrame(CGRectMake(0, statusbar_height, statusbar_width, statusbar_height))
-    notice_view.backgroundColor = UIColor.clearColor
-
-    # Add label view to notice view
-    label_view = label_view(text)
-    notice_view.addSubview(label_view)
-
-    # Add accessory if needed 
-    accessory_view =  case accessory
-                      when "activity" then spinner_view
-                      when "success" then image_view("success")
-                      when "error" then image_view("error")
-                      else nil
-                      end
-    notice_view.addSubview(accessory_view)
-
-    # Place accessory and label correctly
-    if accessory.present? 
-      text_width = text.sizeWithFont(font).width
-      accessory_view.x = (statusbar_width/2) - (text_width / 2) - 10
-      label_view.x += 10
-    end
-
-    # Add notice view to statusbar view
-    @statusbar_view.addSubview(notice_view)
-
-    return notice_view
-  end
-
-  def label_view(text)
-    label_view = UILabel.alloc.initWithFrame(CGRectMake(0, 0, statusbar_width, statusbar_height))
-    label_view.backgroundColor = UIColor.clearColor
-    label_view.adjustsFontSizeToFitWidth = false
-    label_view.textAlignment = ios_6? ? UITextAlignmentCenter : NSTextAlignmentCenter
-    label_view.baselineAdjustment = UIBaselineAdjustmentAlignCenters
-    label_view.textColor = color
-    label_view.font = font
-    label_view.text = text
-
-    return label_view
-  end
-
-  def image_view(image)
-    new_image = image.uiimage
-    image_view = UIImageView.alloc.initWithFrame(CGRectMake(0, 3, K_accessory_dimension, K_accessory_dimension))
-    image_view.image = image.uiimage.rt_tintedImageWithColor(color, level:1)
-
-    return image_view
-  end
-
-  def spinner_view
-    spinner_view = UIActivityIndicatorView.alloc.initWithActivityIndicatorStyle(UIActivityIndicatorViewStyleWhite)
-    spinner_view.frame = CGRectMake(0, 3, K_accessory_dimension, K_accessory_dimension)
-    spinner_view.hidesWhenStopped = true
-    spinner_view.transform = CGAffineTransformMakeScale(K_accessory_dimension/spinner_view.width, K_accessory_dimension/spinner_view.width)
-    spinner_view.startAnimating
-    spinner_view.color = color
-
-    return spinner_view
   end
 
 
@@ -283,7 +221,7 @@ class Statusbar
     frame = statusbar_view_frame
 
     case Device.interface_orientation
-    when :portrait then frame.x = -statusbar_height
+    when :portrait then frame.y = -statusbar_height
     when :landscape_left then frame.x = -20
     when :landscape_right then frame.x = Device.screen.width
     end
@@ -323,6 +261,10 @@ class Statusbar
   def statusbar_view_visible?
     @statusbar_view.present? && @statusbar_view.y.to_i == statusbar_view_frame.y && @statusbar_view.x.to_i == statusbar_view_frame.x
   end
+
+
+
+  #  VIEW GENERATORS
 
   def notice_view(text, accessory)
     # Create notice view
@@ -369,9 +311,11 @@ class Statusbar
   end
 
   def image_view(image)
+    ap "image: #{image}"
     new_image = image.uiimage
+    ap "new_image: #{new_image}"
     image_view = UIImageView.alloc.initWithFrame(CGRectMake(0, 3, K_accessory_dimension, K_accessory_dimension))
-    image_view.image = image.uiimage.rt_tintedImageWithColor(color, level:1)
+    image_view.image = new_image.rt_tintedImageWithColor(color, level:1)
     image_view.tag = 2
 
     return image_view
