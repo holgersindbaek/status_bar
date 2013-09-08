@@ -4,19 +4,21 @@ class Statusbar
 
   K_accessory_dimension = 14
 
-  def initialize
+  def initialize(rotation_effect = "rotate")
     # Create statusbar view
-    @statusbar_view = UIView.alloc.initWithFrame(hidden_statusbar_view_frame)
+    @statusbar_view = UIView.alloc.initWithFrame(hidden_statusbar_view_frame(Device.interface_orientation))
     @statusbar_view.backgroundColor = background_color
     @statusbar_view.clipsToBounds = true
     App.shared.keyWindow.addSubview(@statusbar_view)
 
-
+    # Set old orientation and rotation effect
+    @old_orientation = Device.interface_orientation
+    @rotation_effect = rotation_effect
 
     # Listen for rotation
-    # App.notification_center.observe UIDeviceOrientationDidChangeNotification do |notification|
-    #   application_rotated(notification)
-    # end
+    App.notification_center.observe UIDeviceOrientationDidChangeNotification do |notification|
+      application_rotated(notification)
+    end
   end
 
 
@@ -73,13 +75,13 @@ class Statusbar
   def show_status_bar
     if !statusbar_view_visible?
       App.shared.setStatusBarHidden(true, withAnimation:UIStatusBarAnimationSlide)
-      0.4.second.later { @statusbar_view.move_to([statusbar_view_frame.x, statusbar_view_frame.y]) }
+      0.4.second.later { @statusbar_view.move_to([statusbar_view_frame(Device.interface_orientation).x, statusbar_view_frame(Device.interface_orientation).y]) }
     end
   end
 
   def hide_statusbar_view
     if statusbar_view_visible?
-      @statusbar_view.move_to([hidden_statusbar_view_frame.x, hidden_statusbar_view_frame.y])
+      @statusbar_view.move_to([hidden_statusbar_view_frame(@old_orientation).x, hidden_statusbar_view_frame(@old_orientation).y])
       0.4.second.later { App.shared.setStatusBarHidden(false, withAnimation:UIStatusBarAnimationSlide) }
     end
   end
@@ -179,48 +181,46 @@ class Statusbar
     (statusbar_width/2) - (textwidth(text) / 2)
   end
 
-  def statusbar_view_x
-    case Device.interface_orientation
+  def statusbar_view_x(orientation)
+    case orientation
     when :portrait then 0 
     when :landscape_left then 0 
     when :landscape_right then Device.screen.width-statusbar_height
     end
   end
 
-  def statusbar_view_y
-    case Device.interface_orientation
+  def statusbar_view_y(orientation)
+    case orientation
     when :portrait then 0
     when :landscape_left then 0
     when :landscape_right then 0
     end
   end
 
-  def statusbar_view_width
-    case Device.interface_orientation
+  def statusbar_view_width(orientation)
+    case orientation
     when :portrait then statusbar_width
     when :landscape_left then statusbar_height
     when :landscape_right then statusbar_height
     end
   end
 
-  def statusbar_view_height
-    case Device.interface_orientation
+  def statusbar_view_height(orientation)
+    case orientation
     when :portrait then statusbar_height
     when :landscape_left then statusbar_width
     when :landscape_right then statusbar_width
     end
   end
 
-  def statusbar_view_frame
-    CGRectMake(statusbar_view_x, statusbar_view_y, statusbar_view_width, statusbar_view_height)
+  def statusbar_view_frame(orientation)
+    CGRectMake(statusbar_view_x(orientation), statusbar_view_y(orientation), statusbar_view_width(orientation), statusbar_view_height(orientation))
   end
 
-  def hidden_statusbar_view_frame
-    ap Device.interface_orientation
+  def hidden_statusbar_view_frame(orientation)
+    frame = statusbar_view_frame(orientation)
 
-    frame = statusbar_view_frame
-
-    case Device.interface_orientation
+    case orientation
     when :portrait then frame.y = -statusbar_height
     when :landscape_left then frame.x = -20
     when :landscape_right then frame.x = Device.screen.width
@@ -231,35 +231,70 @@ class Statusbar
 
   def reposition_statusbar_view
     @statusbar_view.rotate_to(duration: 0.0, angle: degrees)
-    @statusbar_view.frame = hidden_statusbar_view_frame
+    @statusbar_view.frame = hidden_statusbar_view_frame(Device.interface_orientation)
   end
 
   def application_rotated(notification)
     return unless portrait? || landscape?
     return unless statusbar_view_visible?
+    return if @old_orientation == Device.interface_orientation
 
-    UIView.animation_chain {
-      @statusbar_view.rotate_to(duration: 0.3, angle: degrees)
-      @statusbar_view.frame = statusbar_view_frame
+    if @rotation_effect == "rotate"
+      UIView.animation_chain {
+        @statusbar_view.rotate_to(duration: 0.3, angle: degrees)
+        @statusbar_view.frame = statusbar_view_frame(Device.interface_orientation)
 
-      @statusbar_view.subviews.each do |view|
-        view_frame = view.frame
-        view_frame.width = statusbar_width
-        view.width = statusbar_width
-        view.move_to([0, 0])
+        @statusbar_view.subviews.each do |view|
+          view_frame = view.frame
+          view_frame.width = statusbar_width
+          view.width = statusbar_width
+          view.move_to([0, 0])
 
-        label_view = view.viewWithTag(1)
-        accessory_view = view.viewWithTag(2)
+          label_view = view.viewWithTag(1)
+          accessory_view = view.viewWithTag(2)
 
-        label_view.x = label_x(label_view.text) if label_view.present?
-        accessory_view.x = accessory_x(label_view.text) if accessory_view.present?
-        label_view.x += 10 if accessory_view.present?
-      end
-    }.start
+          label_view.x = label_x(label_view.text) if label_view.present?
+          accessory_view.x = accessory_x(label_view.text) if accessory_view.present?
+          label_view.x += 10 if accessory_view.present?
+        end
+      }.start
+    elsif @rotation_effect == "slide"
+      slide_in_frame = hidden_statusbar_view_frame(@old_orientation)
+      @statusbar_view.move_to([slide_in_frame.x, slide_in_frame.y])
+
+      0.3.second.later {
+        @statusbar_view.rotate_to(duration: 0.0, angle: degrees)
+        @statusbar_view.frame = hidden_statusbar_view_frame(Device.interface_orientation)
+
+        @statusbar_view.subviews.each do |view|
+          view_frame = view.frame
+          view_frame.width = statusbar_width
+          view.width = statusbar_width
+          view.move_to([0, 0])
+
+          label_view = view.viewWithTag(1)
+          accessory_view = view.viewWithTag(2)
+
+          label_view.x = label_x(label_view.text) if label_view.present?
+          accessory_view.x = accessory_x(label_view.text) if accessory_view.present?
+          label_view.x += 10 if accessory_view.present?
+        end
+
+        0.1.second.later {
+          UIView.animation_chain {
+            @statusbar_view.frame = statusbar_view_frame(Device.interface_orientation)
+          }.start
+        }
+      }
+    end
+
+    # Set old orientation to new orientation
+    @old_orientation = Device.interface_orientation
+
   end
 
   def statusbar_view_visible?
-    @statusbar_view.present? && @statusbar_view.y.to_i == statusbar_view_frame.y && @statusbar_view.x.to_i == statusbar_view_frame.x
+    @statusbar_view.present? && @statusbar_view.y.to_i == statusbar_view_frame(@old_orientation).y && @statusbar_view.x.to_i == statusbar_view_frame(@old_orientation).x
   end
 
 
@@ -311,9 +346,7 @@ class Statusbar
   end
 
   def image_view(image)
-    ap "image: #{image}"
     new_image = image.uiimage
-    ap "new_image: #{new_image}"
     image_view = UIImageView.alloc.initWithFrame(CGRectMake(0, 3, K_accessory_dimension, K_accessory_dimension))
     image_view.image = new_image.rt_tintedImageWithColor(color, level:1)
     image_view.tag = 2
