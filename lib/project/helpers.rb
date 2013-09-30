@@ -51,15 +51,6 @@ def ios_6?
   Device.ios_version.to_i == 6
 end
 
-def dark_statusbar_style?
-  case App.shared.statusBarStyle
-  when UIStatusBarStyleDefault, UIStatusBarStyleBlackTranslucent, UIStatusBarStyleBlackOpaque
-    return true unless ios_7?
-  end
-
-  return false
-end
-
 def color
   return "#ffffff".uicolor if App.shared.statusBarStyle == UIStatusBarStyleLightContent && ios_7?
   return "#bcbcbc1".uicolor if ios_6?
@@ -133,9 +124,9 @@ def hidden_statusbar_view_frame(orientation)
   frame = statusbar_view_frame(orientation)
 
   case orientation
-  when :portrait then frame.y = -statusbar_height
-  when :landscape_left then frame.x = -20
-  when :landscape_right then frame.x = Device.screen.width
+  when :portrait then frame.origin.y = -statusbar_height
+  when :landscape_left then frame.origin.x = -20
+  when :landscape_right then frame.origin.x = Device.screen.width
   end
 
   return frame
@@ -157,17 +148,15 @@ def application_rotated(notification)
       @statusbar_view.frame = statusbar_view_frame(Device.interface_orientation)
 
       @statusbar_view.subviews.each do |view|
-        view_frame = view.frame
-        view_frame.width = statusbar_width
-        view.frame.width = statusbar_width
+        view.width = statusbar_width
         view.move_to([0, 0])
 
         label_view = view.viewWithTag(1)
         accessory_view = view.viewWithTag(2)
 
-        label_view.frame.x = label_x(label_view.text) if label_view.present?
-        accessory_view.frame.x = accessory_x(label_view.text) if accessory_view.present?
-        label_view.frame.x += 10 if accessory_view.present?
+        label_view.x = label_x(label_view.text) if label_view.present?
+        accessory_view.x = accessory_x(label_view.text) if accessory_view.present?
+        label_view.x += 10 if accessory_view.present?
       end
     }.start
   elsif @rotation_effect == "slide"
@@ -179,16 +168,14 @@ def application_rotated(notification)
       @statusbar_view.frame = hidden_statusbar_view_frame(Device.interface_orientation)
 
       @statusbar_view.subviews.each do |view|
-        view_frame = view.frame
-        view_frame.width = statusbar_width
         view.width = statusbar_width
         view.move_to([0, 0])
 
         label_view = view.viewWithTag(1)
         accessory_view = view.viewWithTag(2)
 
-        label_view.frame.x = label_x(label_view.text) if label_view.present?
-        accessory_view.frame.x = accessory_x(label_view.text) if accessory_view.present?
+        label_view.x = label_x(label_view.text) if label_view.present?
+        accessory_view.x = accessory_x(label_view.text) if accessory_view.present?
         label_view.x += 10 if accessory_view.present?
       end
 
@@ -206,5 +193,5 @@ def application_rotated(notification)
 end
 
 def statusbar_view_visible?
-  @statusbar_view.present? && @statusbar_view.frame.y.to_i == statusbar_view_frame(@old_orientation).y && @statusbar_view.frame.x.to_i == statusbar_view_frame(@old_orientation).x
+  @statusbar_view.present? && @statusbar_view.y.to_i == statusbar_view_frame(@old_orientation).origin.y && @statusbar_view.x.to_i == statusbar_view_frame(@old_orientation).origin.x
 end

@@ -16,11 +16,19 @@ A utility class for displaying status updates in the iOS status bar. Inspired by
 Add StatusBar to your Gemfile, and run `bundle install`:
 ```ruby
 
-gem 'motion-cocoapods'
 gem 'StatusBar'
-
 ```
 
+If you're making an iOS 7 app, this is a good idea as well:
+
+```ruby
+
+Motion::Project::App.setup do |app|
+  # Setting the statusbarstyle to a light style in all the viewcontrollers
+  app.info_plist['UIViewControllerBasedStatusBarAppearance'] = false
+  app.info_plist['UIStatusBarStyle'] = "UIStatusBarStyleDefault"
+end
+```
 ## Usage
 
 ``` ruby
@@ -42,13 +50,11 @@ statusbar.show_error_notice("Awww... did't work out")
 
 # Check if the status bar is currently visible
 statusbar.visible?
-
 ```
 
-## Todo
+## Demo Project
 
-* Make it work with a translucent status bar
-* Make rotation work perfectly
+* [StatusBarDemo](https://github.com/holgersindbaek/StatusBarDemo)
 
 ## Contributing
 

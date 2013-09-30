@@ -3,7 +3,6 @@ $:.unshift("/Library/RubyMotion/lib")
 
 require 'motion/project/template/ios'
 require './lib/StatusBar'
-require 'teacup'
 
 begin
   require 'bundler'

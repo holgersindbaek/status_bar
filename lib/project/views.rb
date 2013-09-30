@@ -1,13 +1,8 @@
 #  VIEW GENERATORS
 def notice_view(text, accessory)
-
   # Create notice view
   notice_view = UIView.alloc.initWithFrame(CGRectMake(0, statusbar_height, statusbar_width, statusbar_height))
   notice_view.backgroundColor = UIColor.clearColor
-
-  layout(notice_view) do
-    subview(UIButton, :hi_button)
-  end
 
   # Add label view to notice view
   label_view = label_view(text)
@@ -24,8 +19,8 @@ def notice_view(text, accessory)
 
   # Place accessory and label correctly
   if accessory.present? 
-    accessory_view.frame.x = accessory_x(text)
-    label_view.frame.x += 10
+    accessory_view.x = accessory_x(text)
+    label_view.x += 10
   end
 
   # Add notice view to statusbar view
@@ -35,7 +30,6 @@ def notice_view(text, accessory)
 end
 
 def label_view(text)
-  p color
   label_view = UILabel.alloc.initWithFrame(CGRectMake(label_x(text), 0, textwidth(text), statusbar_height))
   label_view.backgroundColor = UIColor.clearColor
   label_view.adjustsFontSizeToFitWidth = false
