@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "sugarcube"
   spec.add_dependency "geomotion"
   spec.add_dependency "motion-require", "~> 0.0.3"
+  spec.add_dependency "teacup"
   # spec.add_dependency "formotion"
   spec.add_development_dependency 'rake'
 end
