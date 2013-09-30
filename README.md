@@ -4,13 +4,6 @@
 
 A utility class for displaying status updates in the iOS status bar. Inspired by Mailbox and designed to function similar to SVProgressHUD.
 
-##Screenshots
-
-![Notice](screenshots/notice.png)
-![Activity](screenshots/activity.png)
-![Success](screenshots/success.png)
-![Error](screenshots/error.png)
-
 ## Installation
 
 Add StatusBar to your Gemfile, and run `bundle install`:
@@ -55,6 +48,13 @@ statusbar.visible?
 ## Demo Project
 
 * [StatusBarDemo](https://github.com/holgersindbaek/StatusBarDemo)
+
+##Screenshots
+
+![Notice](screenshots/notice.png)
+![Activity](screenshots/activity.png)
+![Success](screenshots/success.png)
+![Error](screenshots/error.png)
 
 ## Contributing
 
