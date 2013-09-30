@@ -9,6 +9,8 @@ class Statusbar
     @statusbar_view = UIView.alloc.initWithFrame(hidden_statusbar_view_frame(Device.interface_orientation))
     @statusbar_view.backgroundColor = background_color
     @statusbar_view.clipsToBounds = true
+    p App.shared
+    p App.shared.keyWindow
     App.shared.keyWindow.addSubview(@statusbar_view)
 
     # Set old orientation and rotation effect
@@ -253,9 +255,9 @@ class Statusbar
           label_view = view.viewWithTag(1)
           accessory_view = view.viewWithTag(2)
 
-          label_view.x = label_x(label_view.text) if label_view.present?
+          label_view.frame.x = label_x(label_view.text) if label_view.present?
           accessory_view.x = accessory_x(label_view.text) if accessory_view.present?
-          label_view.x += 10 if accessory_view.present?
+          label_view.frame.x += 10 if accessory_view.present?
         end
       }.start
     elsif @rotation_effect == "slide"
@@ -275,8 +277,8 @@ class Statusbar
           label_view = view.viewWithTag(1)
           accessory_view = view.viewWithTag(2)
 
-          label_view.x = label_x(label_view.text) if label_view.present?
-          accessory_view.x = accessory_x(label_view.text) if accessory_view.present?
+          label_view.frame.x = label_x(label_view.text) if label_view.present?
+          accessory_view.frame.x = accessory_x(label_view.text) if accessory_view.present?
           label_view.x += 10 if accessory_view.present?
         end
 
@@ -294,7 +296,7 @@ class Statusbar
   end
 
   def statusbar_view_visible?
-    @statusbar_view.present? && @statusbar_view.y.to_i == statusbar_view_frame(@old_orientation).y && @statusbar_view.x.to_i == statusbar_view_frame(@old_orientation).x
+    @statusbar_view.present? && @statusbar_view.frame.y.to_i == statusbar_view_frame(@old_orientation).y && @statusbar_view.frame.x.to_i == statusbar_view_frame(@old_orientation).x
   end
 
 
@@ -321,8 +323,8 @@ class Statusbar
 
     # Place accessory and label correctly
     if accessory.present? 
-      accessory_view.x = accessory_x(text)
-      label_view.x += 10
+      accessory_view.frame.x = accessory_x(text)
+      label_view.frame.x += 10
     end
 
     # Add notice view to statusbar view
@@ -346,9 +348,9 @@ class Statusbar
   end
 
   def image_view(image)
-    new_image = image.uiimage
+    p "image: #{image}"
     image_view = UIImageView.alloc.initWithFrame(CGRectMake(0, 3, K_accessory_dimension, K_accessory_dimension))
-    image_view.image = new_image.rt_tintedImageWithColor(color, level:1)
+    image_view.image = image.uiimage.overlay(color)
     image_view.tag = 2
 
     return image_view
