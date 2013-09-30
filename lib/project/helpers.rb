@@ -166,7 +166,7 @@ def application_rotated(notification)
         accessory_view = view.viewWithTag(2)
 
         label_view.frame.x = label_x(label_view.text) if label_view.present?
-        accessory_view.x = accessory_x(label_view.text) if accessory_view.present?
+        accessory_view.frame.x = accessory_x(label_view.text) if accessory_view.present?
         label_view.frame.x += 10 if accessory_view.present?
       end
     }.start
