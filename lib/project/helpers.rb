@@ -57,10 +57,6 @@ def color
   return UIColor.blackColor
 end
 
-def background_color
-  return ios_7? ? UIColor.clearColor : UIColor.blackColor
-end
-
 def degrees
   transform = 0.degrees
   if landscape_left?(Device.interface_orientation)
@@ -142,7 +138,7 @@ def application_rotated(notification)
   return unless statusbar_view_visible?
   return if @old_orientation == Device.interface_orientation
 
-  if @rotation_effect == "rotate"
+  if @rotation_effect == :rotate
     UIView.animation_chain {
       @statusbar_view.rotate_to(duration: 0.3, angle: degrees)
       @statusbar_view.frame = statusbar_view_frame(Device.interface_orientation)
@@ -159,7 +155,7 @@ def application_rotated(notification)
         label_view.x += 10 if accessory_view.present?
       end
     }.start
-  elsif @rotation_effect == "slide"
+  elsif @rotation_effect == :slide
     slide_in_frame = hidden_statusbar_view_frame(@old_orientation)
     @statusbar_view.move_to([slide_in_frame.x, slide_in_frame.y])
 

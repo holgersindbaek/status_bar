@@ -2,11 +2,13 @@ K_accessory_dimension = 14
 
 class StatusBar
 
-  def initialize(rotation_effect = "rotate")
+  def initialize(rotation_effect = :rotate, background_color = :clear)
     # Create statusbar view    
     @statusbar_view = UIView.alloc.initWithFrame(hidden_statusbar_view_frame(Device.interface_orientation))
-    @statusbar_view.backgroundColor = background_color
+    @statusbar_view.backgroundColor = background_color.uicolor
     @statusbar_view.clipsToBounds = true
+
+    # Add statusbar view to keywindow
     App.shared.keyWindow.addSubview(@statusbar_view)
 
     # Set old orientation and rotation effect
