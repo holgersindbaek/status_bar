@@ -27,10 +27,10 @@ end
 ``` ruby
 
 # Initilize the status bar
-statusbar = Statusbar.new
+statusbar = StatusBar.new
 
 # And if you want a slide up/down effect instead of rotation when the device rotates
-statusbar = Statusbar.new("slide")
+statusbar = StatusBar.new("slide")
 
 # Show a notice... and hide it
 statusbar.show_notice("Hello World")
