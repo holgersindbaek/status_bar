@@ -2,13 +2,13 @@
 STATUSBAR_VERSION = "0.1"
 
 Gem::Specification.new do |spec|
-  spec.name          = "StatusBar"
+  spec.name          = "status_bar"
   spec.version       = STATUSBAR_VERSION
   spec.authors       = ["Holger Sindbaek"]
   spec.email         = ["holgersindbaek@gmail.com"]
   spec.description   = %q{This RubyMotion gem can show status updates in the status bar. Heavily inspired by https://github.com/brianpartridge/BPStatusBar.}
   spec.summary       = %q{RubyMotion status bar wrapper.}
-  spec.homepage      = "https://github.com/holgersindbaek/StatusBar"
+  spec.homepage      = "https://github.com/holgersindbaek/status_bar"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($\)

@@ -1,4 +1,4 @@
-class Statusbar
+class StatusBar
   # include statusbar_helper.rb
   # include StatusbarHelper
 
@@ -187,7 +187,7 @@ class Statusbar
     when :landscape_left then 0 
     when :landscape_right then Device.screen.width-statusbar_height
     end
-  end
+  end 
 
   def statusbar_view_y(orientation)
     case orientation
