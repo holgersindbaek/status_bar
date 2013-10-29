@@ -16,7 +16,8 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency("bubblewrap")
-  spec.add_development_dependency("sugarcube")
   spec.add_development_dependency "rake"
+  # spec.add_dependency "bubblewrap"
+  spec.add_dependency "sugarcube"
+  spec.add_dependency "motion-cocoapods", ">= 1.3.7"
 end
