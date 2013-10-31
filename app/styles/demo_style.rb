@@ -1,11 +1,11 @@
 Teacup::Stylesheet.new :demo do
 
-  style :demo_view,
-    backgroundColor: "#000000".uicolor
+  # style :demo_view,
+    # backgroundColor: "#000000".uicolor
 
   style :container,
     top: 20,
-    backgroundColor: "#ffffff".uicolor,
+    # backgroundColor: "#ffffff".uicolor,
     portrait: {
       width: "100%",
       height: "100%-20"
