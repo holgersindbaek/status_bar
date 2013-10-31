@@ -1,6 +1,6 @@
 describe "A - DemoController" do
   tests DemoController
-
+  
   context "B - Verify button existence" do
 
     it "show notice button" do
@@ -29,34 +29,22 @@ describe "A - DemoController" do
 
   end
 
-  context "B - Clicking buttons" do
 
-    it "notice button should show notice" do
-      tap "Show Notice"
 
-      wait 0.5 do
-        view("This is a notice").should.not.equal nil
-      end
-    end
+  # context "B - Clicking buttons" do
 
-    it "activity button should show activity"
+  #   it "notice button should show notice"
 
-    it "success button should show success"
+  #   it "activity button should show activity"
 
-    it "error button should show error"
+  #   it "success button should show success"
 
-    it "hide button should hide notice"
+  #   it "error button should show error"
 
-    it "visible buttons should check visibility"
+  #   it "hide button should hide notice"
 
-  end
+  #   it "visible buttons should check visibility"
 
-  # it "should test" do
-  #   rotate_device :to => :landscape
-
-  #   wait 5 do
-
-  #   end
   # end
 
 end

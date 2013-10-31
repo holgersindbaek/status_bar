@@ -1,6 +1,8 @@
 class DemoController < UIViewController
   stylesheet :demo
 
+  attr_reader :status_bar
+
   layout :demo_view do
     @container = subview(UIView, :container) do
       @show_notice_button = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :show_notice_button)
@@ -15,9 +17,7 @@ class DemoController < UIViewController
   def viewDidLoad
     super
 
-    # @status_bar = CustomView.alloc.initWithFrame(CGRectMake(0, 0, 300, 300))
-    self.view.addSubview CustomView.alloc.initWithFrame(CGRectMake(0, 0, 100, 100))
-    # App.shared.keyWindow.addSubview(@status_bar)
+    @status_bar = StatusBar::Base.new
 
     @show_notice_button.when(UIControlEventTouchUpInside) {
       @status_bar.show_notice "This is a notice"
@@ -45,7 +45,6 @@ class DemoController < UIViewController
   end
 
   def shouldAutorotate
-    # UIView.animate { @container.restyle! }
     true
   end
 
