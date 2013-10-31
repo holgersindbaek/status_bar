@@ -2,7 +2,9 @@
 $:.unshift("/Library/RubyMotion/lib")
 
 require 'motion/project/template/ios'
-require './lib/status_bar'
+
+require 'awesome_print_motion'
+require 'guard/motion'
 
 begin
   require 'bundler'
