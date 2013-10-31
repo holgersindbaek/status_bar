@@ -15,8 +15,9 @@ class DemoController < UIViewController
   def viewDidLoad
     super
 
-    @status_bar = StatusBar.alloc.initWithFrame(CGRectMake(0, 0, 300, 300))
-    App.shared.keyWindow.addSubview(@status_bar)
+    @status_bar = CustomView.alloc.initWithFrame(CGRectMake(0, 0, 300, 300))
+    self.view.addSubview @status_bar
+    # App.shared.keyWindow.addSubview(@status_bar)
 
     @show_notice_button.when(UIControlEventTouchUpInside) {
       @status_bar.show_notice "This is a notice"
