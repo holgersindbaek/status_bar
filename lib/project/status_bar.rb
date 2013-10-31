@@ -1,24 +1,63 @@
-module StatusBar
-  class Base
-    stylesheet :status_bar
+  class StatusBar < UIView
+    # include Teacup::Layout
+    
+    # stylesheet :status_bar
 
     K_accessory_dimension = 14
 
     def initialize(rotation_effect = "rotate")
+      # layout UIVIew.new do
+      #   @show_notice_button = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :show_notice_button)
+      #   @show_activity_button = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :show_activity_button)
+      #   @show_success_button = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :show_success_button)
+      #   @show_error_button = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :show_error_button)
+      #   @hide_notice_button = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :hide_notice_button)
+      #   @visibility_button = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :visibility_button)
+      # end
+
+      # ap "initialize"
+      # self.stylesheet = :status_bar
+      # self.stylename = :test
+      # @custom_view = subview(UIView, :test)
+
+      # App.shared.keyWindow.addSubview(self)
+
       # Create statusbar view
-      @statusbar_view = UIView.alloc.initWithFrame(hidden_statusbar_view_frame(Device.interface_orientation))
-      @statusbar_view.backgroundColor = background_color
-      @statusbar_view.clipsToBounds = true
-      App.shared.keyWindow.addSubview(@statusbar_view)
+      # @statusbar_view = UIView.alloc.initWithFrame(hidden_statusbar_view_frame(Device.interface_orientation))
+      # @statusbar_view.backgroundColor = background_color
+      # @statusbar_view.clipsToBounds = true
 
-      # Set old orientation and rotation effect
-      @old_orientation = Device.interface_orientation
-      @rotation_effect = rotation_effect
+      initWithFrame(CGRectMake(0, 0, 100, 100))
 
-      # Listen for rotation
-      App.notification_center.observe UIDeviceOrientationDidChangeNotification do |notification|
-        application_rotated(notification)
+      # layout(@status_bar_view, :status_bar_view) do
+      #   @notice_view = subview(UIView, :notice_view)
+      #   @activity_view = subview(UIView, :activity_view)
+      #   @success_view = subview(UIView, :success_view)
+      #   @error_view = subview(UIView, :error_view)
+      # end
+
+      # # Set old orientation and rotation effect
+      # @old_orientation = Device.interface_orientation
+      # @rotation_effect = rotation_effect
+
+      # # Listen for rotation
+      # App.notification_center.observe UIDeviceOrientationDidChangeNotification do |notification|
+      #   application_rotated(notification)
+      # end
+    end
+
+    def initWithFrame(frame)
+
+      super.tap do
+        self.stylesheet = :status_bar
+        layout(self, :status_bar_view) do
+          @notice_view = subview(UIView, :notice_view)
+          @activity_view = subview(UIView, :activity_view)
+          @success_view = subview(UIView, :success_view)
+          @error_view = subview(UIView, :error_view)
+        end
       end
+
     end
 
 
@@ -367,4 +406,4 @@ module StatusBar
     end
 
   end
-end
+
