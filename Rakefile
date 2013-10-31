@@ -3,8 +3,20 @@ $:.unshift("/Library/RubyMotion/lib")
 
 require 'motion/project/template/ios'
 
+require 'sugarcube-repl'
+require 'sugarcube-foundation'
+require 'sugarcube-color'
+require 'sugarcube-constants'
+require 'sugarcube-568'
+require 'sugarcube-uikit'
+require 'sugarcube-gestures'
+require 'sugarcube-nsdata'
+require 'sugarcube-timer'
+require 'sugarcube-animations'
+require 'sugarcube-events'
 require 'awesome_print_motion'
 require 'guard/motion'
+require 'teacup'
 
 begin
   require 'bundler'

@@ -1,0 +1,64 @@
+<?xml version='1.0'?>
+<signatures version='1.0'>
+<class name='UIImage'>
+<method selector='rt_darkenRect:withLevel:'>
+<arg type64='{CGRect={CGPoint=dd}{CGSize=dd}}' type='{CGRect={CGPoint=ff}{CGSize=ff}}' index='0' name='rect' declared_type='CGRect'/>
+<arg type64='d' type='f' index='1' name='level' declared_type='CGFloat'/>
+<retval type='@' declared_type='UIImage*'/>
+</method>
+<method selector='rt_darkenWithLevel:'>
+<arg type64='d' type='f' index='0' name='level' declared_type='CGFloat'/>
+<retval type='@' declared_type='UIImage*'/>
+</method>
+<method selector='rt_darkenWithLevel:insets:'>
+<arg type64='d' type='f' index='0' name='level' declared_type='CGFloat'/>
+<arg type64='{UIEdgeInsets=dddd}' type='{UIEdgeInsets=ffff}' index='1' name='insets' declared_type='UIEdgeInsets'/>
+<retval type='@' declared_type='UIImage*'/>
+</method>
+<method selector='rt_lightenRect:withLevel:'>
+<arg type64='{CGRect={CGPoint=dd}{CGSize=dd}}' type='{CGRect={CGPoint=ff}{CGSize=ff}}' index='0' name='rect' declared_type='CGRect'/>
+<arg type64='d' type='f' index='1' name='level' declared_type='CGFloat'/>
+<retval type='@' declared_type='UIImage*'/>
+</method>
+<method selector='rt_lightenWithLevel:'>
+<arg type64='d' type='f' index='0' name='level' declared_type='CGFloat'/>
+<retval type='@' declared_type='UIImage*'/>
+</method>
+<method selector='rt_lightenWithLevel:insets:'>
+<arg type64='d' type='f' index='0' name='level' declared_type='CGFloat'/>
+<arg type64='{UIEdgeInsets=dddd}' type='{UIEdgeInsets=ffff}' index='1' name='insets' declared_type='UIEdgeInsets'/>
+<retval type='@' declared_type='UIImage*'/>
+</method>
+<method selector='rt_tintedImageWithColor:'>
+<arg type='@' index='0' name='color' declared_type='UIColor*'/>
+<retval type='@' declared_type='UIImage*'/>
+</method>
+<method selector='rt_tintedImageWithColor:insets:'>
+<arg type='@' index='0' name='color' declared_type='UIColor*'/>
+<arg type64='{UIEdgeInsets=dddd}' type='{UIEdgeInsets=ffff}' index='1' name='insets' declared_type='UIEdgeInsets'/>
+<retval type='@' declared_type='UIImage*'/>
+</method>
+<method selector='rt_tintedImageWithColor:insets:level:'>
+<arg type='@' index='0' name='color' declared_type='UIColor*'/>
+<arg type64='{UIEdgeInsets=dddd}' type='{UIEdgeInsets=ffff}' index='1' name='insets' declared_type='UIEdgeInsets'/>
+<arg type64='d' type='f' index='2' name='level' declared_type='CGFloat'/>
+<retval type='@' declared_type='UIImage*'/>
+</method>
+<method selector='rt_tintedImageWithColor:level:'>
+<arg type='@' index='0' name='color' declared_type='UIColor*'/>
+<arg type64='d' type='f' index='1' name='level' declared_type='CGFloat'/>
+<retval type='@' declared_type='UIImage*'/>
+</method>
+<method selector='rt_tintedImageWithColor:rect:'>
+<arg type='@' index='0' name='color' declared_type='UIColor*'/>
+<arg type64='{CGRect={CGPoint=dd}{CGSize=dd}}' type='{CGRect={CGPoint=ff}{CGSize=ff}}' index='1' name='rect' declared_type='CGRect'/>
+<retval type='@' declared_type='UIImage*'/>
+</method>
+<method selector='rt_tintedImageWithColor:rect:level:'>
+<arg type='@' index='0' name='color' declared_type='UIColor*'/>
+<arg type64='{CGRect={CGPoint=dd}{CGSize=dd}}' type='{CGRect={CGPoint=ff}{CGSize=ff}}' index='1' name='rect' declared_type='CGRect'/>
+<arg type64='d' type='f' index='2' name='level' declared_type='CGFloat'/>
+<retval type='@' declared_type='UIImage*'/>
+</method>
+</class>
+</signatures>

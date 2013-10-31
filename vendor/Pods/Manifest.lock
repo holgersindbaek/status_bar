@@ -1,0 +1,10 @@
+PODS:
+  - UIImage+RTTint (1.0.0)
+
+DEPENDENCIES:
+  - UIImage+RTTint (~> 1.0.0)
+
+SPEC CHECKSUMS:
+  UIImage+RTTint: 554294795e24f8189eb636e40605c13dc0cf960b
+
+COCOAPODS: 0.27.1
