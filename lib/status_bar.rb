@@ -26,10 +26,10 @@ Motion::Project::App.setup do |app|
     end
   end
 
-  Dir.glob(File.join(File.dirname(__FILE__), 'sweettea/**/*.rb')).reverse.each do |file|
+  Dir.glob(File.join(File.dirname(__FILE__), 'project/**/*.rb')).reverse.each do |file|
     app.files.insert(teacup_insert_point, file)
   end
   
-  app.files.unshift Dir.glob(File.join(lib_dir_path, "project/**/*.rb"))
+  # app.files.unshift Dir.glob(File.join(lib_dir_path, "project/**/*.rb"))
   app.resources_dirs << File.join(File.dirname(__FILE__), 'resources')
 end
