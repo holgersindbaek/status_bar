@@ -1,7 +1,7 @@
 class DemoController < UIViewController
   stylesheet :demo
 
-  layout do
+  layout :demo do
     @show_notice_button = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :show_notice_button)
     @show_activity_button = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :show_activity_button)
     @show_success_button = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :show_success_button)
@@ -12,6 +12,32 @@ class DemoController < UIViewController
 
   def viewDidLoad
     super
+
+    @status_bar = StatusBar::Base.new("slide")
+
+    @show_notice_button.when(UIControlEventTouchUpInside) {
+      @status_bar.show_notice "This is a notice"
+    }
+
+    @show_activity_button.when(UIControlEventTouchUpInside) {
+      @status_bar.show_activity_notice "Something's going on"
+    }
+
+    @show_success_button.when(UIControlEventTouchUpInside) {
+      @status_bar.show_success_notice "Wohoo... made it!"
+    }
+
+    @show_error_button.when(UIControlEventTouchUpInside) {
+      @status_bar.show_error_notice "Aww... no go"
+    }
+
+    @hide_notice_button.when(UIControlEventTouchUpInside) {
+      @status_bar.hide_notice
+    }
+
+    @visibility_button.when(UIControlEventTouchUpInside) {
+      ap @status_bar.visible?
+    }
   end
 
   def shouldAutorotate

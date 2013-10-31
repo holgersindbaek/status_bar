@@ -1,4 +1,4 @@
-Teacup::Stylesheet.new :demo do
+Teacup::Stylesheet.new :base do
 
   style :demo,
     backgroundColor: "#ffffff".uicolor

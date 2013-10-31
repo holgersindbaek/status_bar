@@ -1,4 +1,10 @@
-require 'motion-cocoapods'
+require 'bubble-wrap/core'
+require 'teacup'
+require 'sugarcube-uikit'
+require 'sugarcube-color'
+require 'sugarcube-numbers'
+require 'sugarcube-animations'
+require 'sugarcube-timer'
 
 unless defined?(Motion::Project::Config)
   raise "This file must be required within a RubyMotion project Rakefile."
@@ -11,9 +17,4 @@ Motion::Project::App.setup do |app|
   # app.files_dependencies File.join(lib_dir_path, "project/StatusBar.rb") => File.join(lib_dir_path, "project/StatusBarHelper.rb")
   app.files.unshift Dir.glob(File.join(lib_dir_path, "project/**/*.rb"))
   app.resources_dirs << File.join(File.dirname(__FILE__), 'resources')
-
-  app.pods ||= Motion::Project::CocoaPods.new(app)
-  app.pods do
-    pod 'UIImage+RTTint', '~> 1.0.0'
-  end
 end
