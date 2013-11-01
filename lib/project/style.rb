@@ -72,7 +72,7 @@ Teacup::Stylesheet.new :status_bar_style do
   style :success_label, extends: :standard_view
 
   style :success_image,
-    image: "success".uiimage.overlay(StatusBar::Helper.label_color)
+    image: "success".uiimage #.overlay("#000000")
 
 
 
@@ -82,6 +82,6 @@ Teacup::Stylesheet.new :status_bar_style do
   style :error_label, extends: :standard_view
 
   style :error_image,
-    image: "error".uiimage.overlay(StatusBar::Helper.label_color)
+    image: "error".uiimage #.overlay("#000000")
 
 end

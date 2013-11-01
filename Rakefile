@@ -7,6 +7,10 @@ require 'awesome_print_motion'
 require 'guard/motion'
 require 'teacup'
 require 'sugarcube-repl'
+require 'sugarcube-uikit'
+require 'sugarcube-color'
+require 'sugarcube-uikit'
+require './lib/status_bar'
 
 begin
   require 'bundler'
