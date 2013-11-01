@@ -1,7 +1,7 @@
 Teacup::Stylesheet.new :demo do
 
-  # style :demo_view,
-    # backgroundColor: "#000000".uicolor
+  style :demo_view,
+    backgroundColor: "#000000".uicolor
 
   style :container,
     top: 20,

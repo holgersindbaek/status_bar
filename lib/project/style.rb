@@ -7,19 +7,14 @@ Teacup::Stylesheet.new :status_bar_style do
     left: 0,
     top: 20,
     clipsToBounds: true,
-    portrait: {
-      width: HS::Base.rotation_width(:portrait),
-      backgroundColor: UIColor.redColor,
-      height: 20
-    },
     landscape: {
-      width: HS::Base.rotation_width(:landscape_left),
-      backgroundColor: UIColor.blueColor,
-      height: 40
+      width: "100%"
+    },
+    portrait: {
+      width: "100%"
     }
 
   style UIView,
-    width: "100%",
     height: 20,
     left: 0
 
@@ -36,20 +31,29 @@ Teacup::Stylesheet.new :status_bar_style do
     width: 14,
     height: 14
 
+  style :standard_view,
+    height: 20,
+    landscape: {
+      width: "100%"
+    },
+    portrait: {
+      width: "100%"
+    }
 
 
-  style :notice_view,
+
+  style :notice_view, extends: :standard_view,
     top: 20
 
-  style :notice_label,
+  style :notice_label, extends: :standard_view,
     text: "Notice Label"
 
 
 
-  style :activity_view,
+  style :activity_view, extends: :standard_view,
     top: 20
 
-  style :activity_label,
+  style :activity_label, extends: :standard_view,
     text: "Activity Label"
 
   style :activity_spinner,
@@ -64,10 +68,10 @@ Teacup::Stylesheet.new :status_bar_style do
 
 
 
-  style :success_view,
+  style :success_view, extends: :standard_view,
     top: 20
 
-  style :success_label,
+  style :success_label, extends: :standard_view,
     text: "Success Label"
 
   style :success_image,
@@ -75,10 +79,10 @@ Teacup::Stylesheet.new :status_bar_style do
 
 
 
-  style :error_view,
+  style :error_view, extends: :standard_view,
     top: 20
 
-  style :error_label,
+  style :error_label, extends: :standard_view,
     text: "Error Label"
 
   style :error_image,

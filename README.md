@@ -27,10 +27,7 @@ end
 ``` ruby
 
 # Initilize the status bar
-statusbar = StatusBar.new
-
-# And if you want a slide up/down effect instead of rotation when the device rotates
-statusbar = StatusBar.new("slide")
+statusbar = StatusBar::Base.new
 
 # Show a notice... and hide it
 statusbar.show_notice("Hello World")
@@ -47,7 +44,7 @@ statusbar.visible?
 
 ## Demo Project
 
-* [StatusBarDemo](https://github.com/holgersindbaek/StatusBarDemo)
+There's a demo project in this gem. Clone it and play around with it.
 
 ##Screenshots
 

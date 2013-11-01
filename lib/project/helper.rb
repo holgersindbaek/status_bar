@@ -33,6 +33,26 @@ module StatusBar
       def label_x(text)
         (HS::Base.rotation_width/2) - (textwidth(text) / 2)
       end
+
+      def view_visible?(view)
+        view.y == 0
+      end
+
+      def label(view)
+        return_view = nil
+        view.subviews.each do |subview|
+          return_view = subview if subview.class == UILabel
+        end
+        return return_view
+      end
+
+      def accessory(view)
+        return_view = nil
+        view.subviews.each do |subview|
+          return_view = subview if subview.class == UIActivityIndicatorView || subview.class == UIImageView
+        end
+        return return_view
+      end
     
     end
 
