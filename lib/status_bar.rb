@@ -14,7 +14,7 @@ unless defined?(Motion::Project::Config)
 end
 
 lib_dir_path = File.dirname(File.expand_path(__FILE__))
-# resource_dir = File.expand_path(File.join(lib_dir_path, '..', 'resources'))
+resource_dir = File.expand_path(File.join(lib_dir_path, '..', 'resources'))
 
 Motion::Project::App.setup do |app|
   teacup_insert_point = nil
