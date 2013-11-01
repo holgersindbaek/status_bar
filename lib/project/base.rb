@@ -75,7 +75,7 @@ module StatusBar
       notice_view.y = 0 if !visible?
       notice_view.move_to([0, 0]) if visible?
       position_inner_views(notice_view)
-      @timer = EM.add_timer 13 { hide_status_bar_view } unless accessory == nil
+      @timer = EM.add_timer 3 { hide_status_bar_view } unless accessory == nil
 
       show_status_bar_view unless visible?
       @current_notice_view = notice_view
@@ -92,7 +92,6 @@ module StatusBar
       accessory = StatusBar::Helper.accessory(view)
 
       return if accessory == nil
-      ap label.text
       label.restyle!
       label.x += 10
       accessory.x = StatusBar::Helper.accessory_x(label.text)

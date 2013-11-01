@@ -45,16 +45,14 @@ Teacup::Stylesheet.new :status_bar_style do
   style :notice_view, extends: :standard_view,
     top: 20
 
-  style :notice_label, extends: :standard_view,
-    text: "Notice Label"
+  style :notice_label, extends: :standard_view
 
 
 
   style :activity_view, extends: :standard_view,
     top: 20
 
-  style :activity_label, extends: :standard_view,
-    text: "Activity Label"
+  style :activity_label, extends: :standard_view
 
   style :activity_spinner,
     left: 0,
@@ -71,8 +69,7 @@ Teacup::Stylesheet.new :status_bar_style do
   style :success_view, extends: :standard_view,
     top: 20
 
-  style :success_label, extends: :standard_view,
-    text: "Success Label"
+  style :success_label, extends: :standard_view
 
   style :success_image,
     image: "success".uiimage #.overlay("#000000")
@@ -82,8 +79,7 @@ Teacup::Stylesheet.new :status_bar_style do
   style :error_view, extends: :standard_view,
     top: 20
 
-  style :error_label, extends: :standard_view,
-    text: "Error Label"
+  style :error_label, extends: :standard_view
 
   style :error_image,
     image: "error".uiimage #.overlay("#000000")
