@@ -31,7 +31,6 @@ module StatusBar
 
     def viewDidLoad
       super 
-      ap "viewDidLoad"
     end
     
   end

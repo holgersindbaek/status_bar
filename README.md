@@ -9,7 +9,7 @@ A utility class for displaying status updates in the iOS status bar. Inspired by
 Add StatusBar to your Gemfile, and run `bundle install`:
 ```ruby
 
-gem 'StatusBar'
+gem 'status_bar'
 ```
 
 If you're making an iOS 7 app, this is a good idea as well:

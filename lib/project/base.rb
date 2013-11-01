@@ -17,6 +17,7 @@ module StatusBar
           position_inner_views(@current_notice_view) unless @current_notice_view == nil
         end
       end
+      
     end
 
 
