@@ -1,6 +1,8 @@
 describe "A - DemoController" do
   tests DemoController
   
+  # I gave up testing, because things good weird. If anyone wants to take up this, I'd love to see how they'd do it.
+
   context "B - Verify button existence" do
 
     it "show notice button" do

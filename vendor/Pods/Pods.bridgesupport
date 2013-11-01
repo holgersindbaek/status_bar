@@ -1,0 +1,100 @@
+<?xml version='1.0'?>
+<signatures version='1.0'>
+<constant const='true' declared_type='NSString*' name='kReachabilityChangedNotification' type='@'/>
+<enum value='0' name='NEEDS_DISPATCH_RETAIN_RELEASE'/>
+<enum value='0' name='NotReachable'/>
+<enum value='1' name='ReachableViaWWAN'/>
+<enum value='2' name='ReachableViaWiFi'/>
+<class name='Reachability'>
+<method selector='connectionRequired'>
+<retval declared_type='BOOL' type='B'/>
+</method>
+<method selector='currentReachabilityFlags'>
+<retval declared_type='NSString*' type='@'/>
+</method>
+<method selector='currentReachabilityStatus'>
+<retval declared_type='NetworkStatus' type='i' type64='q'/>
+</method>
+<method selector='currentReachabilityString'>
+<retval declared_type='NSString*' type='@'/>
+</method>
+<method selector='initWithReachabilityRef:'>
+<arg declared_type='SCNetworkReachabilityRef' name='ref' type='^{__SCNetworkReachability=}' index='0'/>
+<retval declared_type='Reachability*' type='@'/>
+</method>
+<method selector='isConnectionOnDemand'>
+<retval declared_type='BOOL' type='B'/>
+</method>
+<method selector='isConnectionRequired'>
+<retval declared_type='BOOL' type='B'/>
+</method>
+<method selector='isInterventionRequired'>
+<retval declared_type='BOOL' type='B'/>
+</method>
+<method selector='isReachable'>
+<retval declared_type='BOOL' type='B'/>
+</method>
+<method selector='isReachableViaWWAN'>
+<retval declared_type='BOOL' type='B'/>
+</method>
+<method selector='isReachableViaWiFi'>
+<retval declared_type='BOOL' type='B'/>
+</method>
+<method selector='reachabilityFlags'>
+<retval declared_type='SCNetworkReachabilityFlags' type='I'/>
+</method>
+<method class_method='true' selector='reachabilityForInternetConnection'>
+<retval declared_type='Reachability*' type='@'/>
+</method>
+<method class_method='true' selector='reachabilityForLocalWiFi'>
+<retval declared_type='Reachability*' type='@'/>
+</method>
+<method class_method='true' selector='reachabilityWithAddress:'>
+<arg const='true' declared_type='struct sockaddr_in*' name='hostAddress' type='^{sockaddr_in=CCS{in_addr=I}[8c]}' index='0'/>
+<retval declared_type='Reachability*' type='@'/>
+</method>
+<method class_method='true' selector='reachabilityWithHostname:'>
+<arg declared_type='NSString*' name='hostname' type='@' index='0'/>
+<retval declared_type='Reachability*' type='@'/>
+</method>
+<method selector='reachableBlock'>
+<retval function_pointer='true' declared_type='NetworkReachable' type='@?'>
+<arg declared_type='Reachability*' type='@'/>
+<retval declared_type='void' type='v'/>
+</retval>
+</method>
+<method selector='reachableOnWWAN'>
+<retval declared_type='BOOL' type='B'/>
+</method>
+<method selector='setReachableBlock:'>
+<arg function_pointer='true' declared_type='NetworkReachable' name='reachableBlock' type='@?' index='0'>
+<arg declared_type='Reachability*' type='@'/>
+<retval declared_type='void' type='v'/>
+</arg>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setReachableOnWWAN:'>
+<arg declared_type='BOOL' name='reachableOnWWAN' type='B' index='0'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setUnreachableBlock:'>
+<arg function_pointer='true' declared_type='NetworkUnreachable' name='unreachableBlock' type='@?' index='0'>
+<arg declared_type='Reachability*' type='@'/>
+<retval declared_type='void' type='v'/>
+</arg>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='startNotifier'>
+<retval declared_type='BOOL' type='B'/>
+</method>
+<method selector='stopNotifier'>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='unreachableBlock'>
+<retval function_pointer='true' declared_type='NetworkUnreachable' type='@?'>
+<arg declared_type='Reachability*' type='@'/>
+<retval declared_type='void' type='v'/>
+</retval>
+</method>
+</class>
+</signatures>

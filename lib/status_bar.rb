@@ -1,10 +1,13 @@
+require 'hs'
 require 'bubble-wrap/core'
+require 'bubble-wrap/reactor'
 require 'teacup'
 require 'sugarcube-uikit'
 require 'sugarcube-color'
 require 'sugarcube-numbers'
 require 'sugarcube-animations'
 require 'sugarcube-timer'
+require 'sugarcube-image'
 
 unless defined?(Motion::Project::Config)
   raise "This file must be required within a RubyMotion project Rakefile."
@@ -14,7 +17,6 @@ lib_dir_path = File.dirname(File.expand_path(__FILE__))
 # resource_dir = File.expand_path(File.join(lib_dir_path, '..', 'resources'))
 
 Motion::Project::App.setup do |app|
-  # app.files_dependencies File.join(lib_dir_path, "project/StatusBar.rb") => File.join(lib_dir_path, "project/StatusBarHelper.rb")
   teacup_insert_point = nil
   app.files.each_index do |index|
     file = app.files[index]
