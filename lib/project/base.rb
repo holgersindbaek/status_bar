@@ -1,7 +1,7 @@
 module StatusBar
   class Base
 
-    attr_reader :view
+    attr_reader :view, :current_notice_view
 
     def initialize
 
