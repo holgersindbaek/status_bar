@@ -1,6 +1,8 @@
 module StatusBar
   class Base
 
+    attr_reader :status_bar_view
+
     def initialize
 
       @status_bar_view = StatusBar::View.new
