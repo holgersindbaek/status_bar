@@ -1,13 +1,13 @@
 module StatusBar
   class Base
 
-    attr_reader :status_bar_view
+    attr_reader :view
 
     def initialize
 
-      @status_bar_view = StatusBar::View.new
-      App.shared.keyWindow.rootViewController.view.addSubview(@status_bar_view.view)
-      App.shared.keyWindow.rootViewController.view.sendSubviewToBack(@status_bar_view.view)
+      @view = StatusBar::View.new
+      App.shared.keyWindow.rootViewController.view.addSubview(@view.view)
+      App.shared.keyWindow.rootViewController.view.sendSubviewToBack(@view.view)
 
       # Set old orientation and rotation effect
       @current_notice_view = nil
@@ -26,19 +26,19 @@ module StatusBar
 
     # EXTERNAL COMMANDS
     def show_notice(text)
-      show_notice_view(@status_bar_view.notice_view, text:text)
+      show_notice_view(@view.notice_view, text:text)
     end
 
     def show_activity_notice(text)
-      show_notice_view(@status_bar_view.activity_view, text:text)
+      show_notice_view(@view.activity_view, text:text)
     end
 
     def show_success_notice(text)
-      show_notice_view(@status_bar_view.success_view, text:text)
+      show_notice_view(@view.success_view, text:text)
     end
 
     def show_error_notice(text)
-      show_notice_view(@status_bar_view.error_view, text:text)
+      show_notice_view(@view.error_view, text:text)
     end
 
     def hide_notice
@@ -46,7 +46,7 @@ module StatusBar
     end
 
     def visible?
-      StatusBar::Helper.view_visible?(@status_bar_view.status_bar_view)
+      StatusBar::Helper.view_visible?(@view.status_bar_view)
     end
 
 
@@ -55,13 +55,13 @@ module StatusBar
     def show_status_bar_view
       if !visible?
         App.shared.setStatusBarHidden(true, withAnimation:UIStatusBarAnimationSlide)
-        @status_bar_view.status_bar_view.move_to([0, 0])
+        @view.status_bar_view.move_to([0, 0])
       end
     end
 
     def hide_status_bar_view
       if visible?
-        @status_bar_view.status_bar_view.move_to([0, 20])
+        @view.status_bar_view.move_to([0, 20])
         App.shared.setStatusBarHidden(false, withAnimation:UIStatusBarAnimationSlide)
       end
     end
