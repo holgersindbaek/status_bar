@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-STATUSBAR_VERSION = "0.2.1"
+STATUSBAR_VERSION = "0.2.2"
 
 Gem::Specification.new do |spec|
   spec.name          = "status_bar"

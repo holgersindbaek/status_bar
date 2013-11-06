@@ -33,5 +33,5 @@ Motion::Project::App.setup do |app|
   end
   
   # app.files.unshift Dir.glob(File.join(lib_dir_path, "project/**/*.rb"))
-  # app.resources_dirs << File.join(File.dirname(__FILE__), 'resources')
+  app.resources_dirs << File.join(File.dirname(__FILE__), 'resources')
 end
