@@ -5,9 +5,14 @@ module StatusBar
 
     def initialize
 
-      @view = StatusBar::View.new
-      App.shared.keyWindow.rootViewController.view.addSubview(@view.view)
-      App.shared.keyWindow.rootViewController.view.sendSubviewToBack(@view.view)
+      # Add statusbar to root view controller, once root controller is there.
+      timer = 0.1.second.every do
+        return if App.shared.keyWindow == nil || App.shared.keyWindow.rootViewController == nil
+        @view = StatusBar::View.new
+        App.shared.keyWindow.rootViewController.view.addSubview(@view.view)
+        App.shared.keyWindow.rootViewController.view.sendSubviewToBack(@view.view)
+        timer.invalidate
+      end
 
       # Set old orientation and rotation effect
       @current_notice_view = nil
@@ -77,7 +82,7 @@ module StatusBar
       notice_view.y = 0 if !visible?
       notice_view.move_to([0, 0]) if visible?
       position_inner_views(notice_view)
-      @timer = EM.add_timer 3 { hide_status_bar_view } unless accessory == nil
+      @timer = EM.add_timer 3 { hide_status_bar_view } if accessory != nil && accessory.class == UIImageView
 
       show_status_bar_view unless visible?
       @current_notice_view = notice_view

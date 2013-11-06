@@ -1,6 +1,6 @@
-Teacup::Stylesheet.new :demo do
+Teacup::Stylesheet.new :demo_sheet do
 
-  style :demo_view,
+  style :demo,
     backgroundColor: "#000000".uicolor
 
   style :container,

@@ -1,9 +1,9 @@
 class AppDelegate
   def application(application, didFinishLaunchingWithOptions:launchOptions)
     @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
-    @window.makeKeyAndVisible
-    @window.backgroundColor = "#000000".uicolor
+    @window.backgroundColor = UIColor.clearColor
     @window.rootViewController = DemoController.new
+    @window.makeKeyAndVisible
     
     true
   end

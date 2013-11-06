@@ -1,6 +1,6 @@
 include StatusBar
 
-Teacup::Stylesheet.new :status_bar_style do
+Teacup::Stylesheet.new :status_bar_sheet do
 
   style :status_bar_view,
     height: 20,

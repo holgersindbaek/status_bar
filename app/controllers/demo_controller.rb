@@ -1,7 +1,9 @@
 class DemoController < UIViewController
-  stylesheet :demo
+  stylesheet :demo_sheet
 
-  layout :demo_view do
+  attr_reader :status_bar
+
+  layout :demo do
     @container = subview(UIView, :container) do
       @show_notice_button = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :show_notice_button)
       @show_activity_button = subview(UIButton.buttonWithType(UIButtonTypeRoundedRect), :show_activity_button)
@@ -14,8 +16,6 @@ class DemoController < UIViewController
 
   def viewDidLoad
     super
-
-    ap "first viewDidLoad"
 
     @status_bar = StatusBar::Base.new
 

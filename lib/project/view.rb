@@ -1,10 +1,10 @@
 module StatusBar
   class View < UIViewController
-    stylesheet :status_bar_style
+    stylesheet :status_bar_sheet
 
     attr_accessor :status_bar_view, :notice_view, :notice_label, :activity_view, :activity_spinner, :activity_label, :success_view, :success_image, :success_label, :error_view, :error_image, :error_label
 
-    layout :status_bar_view_controller do
+    layout :status_bar_vc_view do
       
       @status_bar_view = subview(UIView, :status_bar_view) do
         @notice_view = subview(UIView, :notice_view) do
