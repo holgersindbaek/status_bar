@@ -76,21 +76,22 @@ module StatusBar
       accessory = StatusBar::Helper.accessory(notice_view)
 
       EM.cancel_timer(@timer) unless @timer == nil
-      clear_notice_view(@current_notice_view) unless StatusBar::Helper.view_visible?(notice_view)
+      0.1.seconds.later { clear_notice_view(@current_notice_view) } unless StatusBar::Helper.view_visible?(notice_view)
 
       label.text = text
-      notice_view.y = 0 if !visible?
-      notice_view.move_to([0, 0]) if visible?
       position_inner_views(notice_view)
+      notice_view.y = 20 unless notice_view.y == 0
+      0.1.seconds.later { notice_view.y = 0 } if !visible?
+      0.1.seconds.later { notice_view.move_to([0, 0]) } if visible?
       @timer = EM.add_timer 3 { hide_status_bar_view } if accessory != nil && accessory.class == UIImageView
 
       show_status_bar_view unless visible?
-      @current_notice_view = notice_view
+      0.1.seconds.later { @current_notice_view = notice_view }
     end
 
     def clear_notice_view(view)
       return if view == nil
-      view.move_to([0, -20]) { view.y = 20 } if visible?
+      view.move_to([0, -20]) if visible?
       view.y = 20 if !visible?
     end
 
