@@ -7,11 +7,12 @@ module StatusBar
 
       # Add statusbar to root view controller, once root controller is there.
       timer = 0.1.second.every do
-        return if App.shared.keyWindow == nil || App.shared.keyWindow.rootViewController == nil
-        @view = StatusBar::View.new
-        App.shared.keyWindow.rootViewController.view.addSubview(@view.view)
-        App.shared.keyWindow.rootViewController.view.sendSubviewToBack(@view.view)
-        timer.invalidate
+        if App.shared.keyWindow && App.shared.keyWindow.rootViewController
+          @view = StatusBar::View.new
+          App.shared.keyWindow.rootViewController.view.addSubview(@view.view)
+          App.shared.keyWindow.rootViewController.view.sendSubviewToBack(@view.view)
+          timer.invalidate
+        end
       end
 
       # Set old orientation and rotation effect
